@@ -2,10 +2,14 @@ package com.example.jobtracksa.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.util.Patterns
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.example.jobtracksa.data.remote.RetrofitClient
+import com.example.jobtracksa.data.remote.model.RegisterRequest
 import com.example.jobtracksa.databinding.ActivityRegisterBinding
+import kotlinx.coroutines.launch
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -17,80 +21,136 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        Log.d("RegisterActivity", "Registration screen opened")
-
-        binding.registerButton.setOnClickListener {
+        binding.btnRegister.setOnClickListener {
             validateRegistration()
         }
 
-        binding.loginTextView.setOnClickListener {
-            Log.d("RegisterActivity", "Returning to login screen")
-
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-
+        binding.tvLogin.setOnClickListener {
+            startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }
     }
 
     private fun validateRegistration() {
 
-        val name = binding.nameEditText.text.toString().trim()
-        val email = binding.emailEditText.text.toString().trim()
-        val password = binding.passwordEditText.text.toString()
-        val confirmPassword =
-            binding.confirmPasswordEditText.text.toString()
+        val fullName = binding.etFullName.text.toString().trim()
+        val email = binding.etEmail.text.toString().trim()
+        val password = binding.etPassword.text.toString()
+        val confirmPassword = binding.etConfirmPassword.text.toString()
 
-        clearErrors()
-
-        var isValid = true
-
-        if (name.isEmpty()) {
-            binding.nameInputLayout.error = "Full name is required"
-            isValid = false
+        if (fullName.isEmpty()) {
+            binding.etFullName.error = "Full name is required"
+            binding.etFullName.requestFocus()
+            return
         }
 
         if (email.isEmpty()) {
-            binding.emailInputLayout.error = "Email is required"
-            isValid = false
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            binding.emailInputLayout.error = "Enter a valid email address"
-            isValid = false
+            binding.etEmail.error = "Email is required"
+            binding.etEmail.requestFocus()
+            return
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            binding.etEmail.error = "Enter a valid email address"
+            binding.etEmail.requestFocus()
+            return
         }
 
         if (password.isEmpty()) {
-            binding.passwordInputLayout.error = "Password is required"
-            isValid = false
-        } else if (password.length < 8) {
-            binding.passwordInputLayout.error =
-                "Password must contain at least 8 characters"
-            isValid = false
+            binding.etPassword.error = "Password is required"
+            binding.etPassword.requestFocus()
+            return
+        }
+
+        if (password.length < 8) {
+            binding.etPassword.error =
+                "Password must be at least 8 characters"
+            binding.etPassword.requestFocus()
+            return
         }
 
         if (confirmPassword.isEmpty()) {
-            binding.confirmPasswordInputLayout.error =
+            binding.etConfirmPassword.error =
                 "Please confirm your password"
-            isValid = false
-        } else if (password != confirmPassword) {
-            binding.confirmPasswordInputLayout.error =
+            binding.etConfirmPassword.requestFocus()
+            return
+        }
+
+        if (password != confirmPassword) {
+            binding.etConfirmPassword.error =
                 "Passwords do not match"
-            isValid = false
+            binding.etConfirmPassword.requestFocus()
+            return
         }
 
-        if (isValid) {
-            Log.d(
-                "RegisterActivity",
-                "Registration input validated successfully",
-            )
-
-            // REST API registration will be added later.
-        }
+        registerUser(fullName, email, password)
     }
 
-    private fun clearErrors() {
-        binding.nameInputLayout.error = null
-        binding.emailInputLayout.error = null
-        binding.passwordInputLayout.error = null
-        binding.confirmPasswordInputLayout.error = null
+    private fun registerUser(
+        fullName: String,
+        email: String,
+        password: String
+    ) {
+
+        lifecycleScope.launch {
+
+            try {
+                binding.btnRegister.isEnabled = false
+
+                val request = RegisterRequest(
+                    fullName = fullName,
+                    email = email,
+                    password = password
+                )
+
+                val response =
+                    RetrofitClient.apiService.register(request)
+
+                if (response.isSuccessful) {
+
+                    val authResponse = response.body()
+
+                    Toast.makeText(
+                        this@RegisterActivity,
+                        authResponse?.message ?: "Registration successful",
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                    // Registration succeeded.
+                    // Send user to Login screen.
+                    val intent =
+                        Intent(this@RegisterActivity, LoginActivity::class.java)
+
+                    startActivity(intent)
+                    finish()
+
+                } else {
+
+                    val message = when (response.code()) {
+                        409 -> "An account with this email already exists"
+                        400 -> "Please check your registration details"
+                        else -> "Registration failed"
+                    }
+
+                    Toast.makeText(
+                        this@RegisterActivity,
+                        message,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+            } catch (e: Exception) {
+
+                Toast.makeText(
+                    this@RegisterActivity,
+                    "Unable to connect to the server",
+                    Toast.LENGTH_LONG
+                ).show()
+
+            } finally {
+
+                binding.btnRegister.isEnabled = true
+            }
+        }
     }
 }
