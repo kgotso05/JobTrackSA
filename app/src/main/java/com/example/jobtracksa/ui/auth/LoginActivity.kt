@@ -12,6 +12,7 @@ import com.example.jobtracksa.data.remote.model.LoginRequest
 import com.example.jobtracksa.databinding.ActivityLoginBinding
 import kotlinx.coroutines.launch
 
+
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
@@ -39,19 +40,28 @@ class LoginActivity : AppCompatActivity() {
         val password = binding.etPassword.text.toString()
 
         if (email.isEmpty()) {
-            binding.etEmail.error = "Email is required"
+
+            binding.etEmail.error =
+                "Email is required"
+
             binding.etEmail.requestFocus()
             return
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            binding.etEmail.error = "Enter a valid email address"
+
+            binding.etEmail.error =
+                "Enter a valid email address"
+
             binding.etEmail.requestFocus()
             return
         }
 
         if (password.isEmpty()) {
-            binding.etPassword.error = "Password is required"
+
+            binding.etPassword.error =
+                "Password is required"
+
             binding.etPassword.requestFocus()
             return
         }

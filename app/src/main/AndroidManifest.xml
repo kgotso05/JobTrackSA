@@ -36,6 +36,26 @@
             android:name=".MainActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".ui.application.AddApplicationActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.application.ApplicationsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.application.ApplicationDetailsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.application.EditApplicationActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.settings.SettingsActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>
