@@ -1,46 +1,85 @@
-backend-tests:
-  name: Backend API Tests
-  runs-on: ubuntu-latest
+name: JobTrack SA CI
 
-  services:
-    postgres:
-      image: postgres:18
-      env:
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: postgres
-        POSTGRES_DB: jobtracksa
-      ports:
-        - 5432:5432
-      options: >-
-        --health-cmd="pg_isready -U postgres -d jobtracksa"
-        --health-interval=10s
-        --health-timeout=5s
-        --health-retries=5
+on:
+  push:
+    branches:
+      - main
+      - kgotso-dev
 
-  defaults:
-    run:
-      working-directory: backend
+  pull_request:
+    branches:
+      - main
 
-  steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+jobs:
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '22'
-        cache: npm
-        cache-dependency-path: backend/package-lock.json
+  android-tests:
+    name: Android Unit Tests
+    runs-on: ubuntu-latest
 
-    - name: Install backend dependencies
-      run: npm ci
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Run backend tests
-      run: npm test
-      env:
-        JWT_SECRET: github-actions-test-secret
-        DB_HOST: localhost
-        DB_PORT: 5432
-        DB_NAME: jobtracksa
-        DB_USER: postgres
-        DB_PASSWORD: postgres
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Grant execute permission
+        run: chmod +x gradlew
+
+      - name: Run Android unit tests
+        run: ./gradlew testDebugUnitTest
+
+
+  backend-tests:
+    name: Backend API Tests
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: jobtracksa
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres -d jobtracksa"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install backend dependencies
+        run: npm ci
+
+      - name: Run backend tests
+        run: npm test
+        env:
+          JWT_SECRET: github-actions-test-secret
+          DB_HOST: localhost
+          DB_PORT: 5432
+          DB_NAME: jobtracksa
+          DB_USER: postgres
+          DB_PASSWORD: postgres
