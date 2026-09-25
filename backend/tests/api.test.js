@@ -42,7 +42,24 @@ describe("JobTrack SA API", () => {
             .toBe("Authentication token is required");
     });
 
+    test("GET /api/applications with invalid JWT should be rejected", async () => {
 
+        const response = await request(app)
+            .get("/api/applications")
+            .set(
+                "Authorization",
+                "Bearer invalid-test-token"
+            );
+
+        expect(response.statusCode).toBe(401);
+
+        expect(response.body.success).toBe(false);
+
+        expect(response.body.message)
+            .toBe(
+                "Invalid or expired authentication token"
+            );
+    });
     test("POST /api/auth/register should reject missing required fields", async () => {
 
         const response = await request(app)
