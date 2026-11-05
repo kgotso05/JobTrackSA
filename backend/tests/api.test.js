@@ -1,7 +1,11 @@
 const request = require("supertest");
 const app = require("../src/server");
+const pool = require("../src/config/database");
 
 describe("JobTrack SA API", () => {
+    afterAll(async () => {
+        await pool.end();
+    });
 
     test("GET / should confirm API is running", async () => {
 

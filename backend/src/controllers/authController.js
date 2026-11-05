@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const pool = require("../config/database");
-
+const { getFirebaseAuth } = require("../config/firebaseAdmin");
 // Register a new user
 const register = async (req, res) => {
     try {
@@ -166,8 +166,115 @@ const login = async (req, res) => {
 };
 
 
+const googleLogin = async (req, res) => {
+    try {
+        const { idToken } = req.body;
+
+        if (!idToken) {
+            return res.status(400).json({
+                success: false,
+                message: "Firebase ID token is required"
+            });
+        }
+
+        // Verify the Firebase ID token
+        const decodedToken = await getFirebaseAuth().verifyIdToken(idToken);
+
+        const firebaseUid = decodedToken.uid;
+        const email = decodedToken.email?.trim().toLowerCase();
+        const fullName =
+            decodedToken.name || email?.split("@")[0];
+
+        if (!email || decodedToken.email_verified !== true) {
+            return res.status(401).json({
+                success: false,
+                message: "A verified Google email is required"
+            });
+        }
+
+        // Find an existing Firebase account
+        let result = await pool.query(
+            `SELECT user_id, full_name, email
+             FROM users
+             WHERE firebase_uid = $1`,
+            [firebaseUid]
+        );
+
+        let user;
+
+        if (result.rows.length > 0) {
+            user = result.rows[0];
+        } else {
+            // Check whether this email already belongs to an account
+            result = await pool.query(
+                `SELECT user_id, full_name, email, firebase_uid
+                 FROM users
+                 WHERE email = $1`,
+                [email]
+            );
+
+            if (result.rows.length > 0) {
+                const existingUser = result.rows[0];
+
+                // Do not automatically link an existing password account
+                return res.status(409).json({
+                    success: false,
+                    message:
+                        "An account with this email already exists. Sign in using your existing method."
+                });
+            }
+
+            // Create a new Google account
+            const crypto = require("crypto");
+            const userId = crypto.randomUUID();
+
+            result = await pool.query(
+                `INSERT INTO users
+                    (user_id, full_name, email, password_hash, firebase_uid)
+                 VALUES ($1, $2, $3, NULL, $4)
+                 RETURNING user_id, full_name, email`,
+                [userId, fullName, email, firebaseUid]
+            );
+
+            user = result.rows[0];
+        }
+
+        // Issue the existing JobTrack SA JWT
+        const token = jwt.sign(
+            {
+                userId: user.user_id,
+                email: user.email
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: "24h"
+            }
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: "Google login successful",
+            token,
+            user: {
+                userId: user.user_id,
+                fullName: user.full_name,
+                email: user.email
+            }
+        });
+
+    } catch (error) {
+        console.error("Google login error:", error.message);
+
+        return res.status(401).json({
+            success: false,
+            message: "Google authentication failed"
+        });
+    }
+};
+
 // Export controller functions
 module.exports = {
     register,
-    login
+    login,
+    googleLogin
 };

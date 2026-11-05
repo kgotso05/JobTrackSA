@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 
-    private const val BASE_URL = "http://10.0.2.2:5000/"
+    private const val BASE_URL = "https://jobtracksa.onrender.com/"
 
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {

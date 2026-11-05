@@ -12,6 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import com.example.jobtracksa.data.remote.RetrofitClient
 import kotlinx.coroutines.launch
 import com.example.jobtracksa.ui.settings.SettingsActivity
+import android.util.Log
+import com.google.firebase.FirebaseApp
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,6 +21,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val firebaseApp = FirebaseApp.getInstance()
+
+        Log.d(
+            "FirebaseCheck",
+            "Firebase initialized: ${firebaseApp.options.projectId}"
+        )
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

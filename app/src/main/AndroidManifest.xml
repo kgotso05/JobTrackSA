@@ -10,7 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.JobTrackSA"
-        android:usesCleartextTraffic="true">
+        >
 
 
         <!-- Registration screen -->
