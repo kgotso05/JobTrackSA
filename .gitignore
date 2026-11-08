@@ -1,4 +1,6 @@
 *.iml
+*.jks
+*.keystore
 .gradle
 /local.properties
 /.idea/caches
@@ -13,3 +15,17 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Backend dependencies and secrets
+node_modules/
+.env
+.env.*
+!.env.example
+
+# Android release files
+app/release/
+
+# Firebase private credentials
+serviceAccountKey.json
+*-firebase-adminsdk-*.json
+

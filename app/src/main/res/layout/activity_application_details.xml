@@ -1,126 +1,216 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F7F8FA"
+    android:background="#F5F7FA"
     android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="22dp">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Application Details"
-            android:textColor="#1A1A1A"
-            android:textSize="28sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvDetailJobTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:text="Job Title"
-            android:textColor="#1A1A1A"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvDetailCompany"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:text="Company"
-            android:textColor="#444444"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/tvDetailStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Applied"
-            android:textColor="#1565C0"
-            android:textSize="16sp"
+            android:text="JOBTRACK SA"
+            android:textColor="#16A6A0"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.15" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="Application Details"
+            android:textColor="#142B4A"
+            android:textSize="27sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tvDetailLocation"
+        <!-- Opportunity summary -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Location: Not specified"
-            android:textColor="#333333"
-            android:textSize="16sp" />
+            android:layout_marginTop="22dp"
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:strokeColor="#E8EDF3"
+            app:strokeWidth="1dp">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/tvDetailJobTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Job Title"
+                    android:textColor="#142B4A"
+                    android:textSize="23sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvDetailCompany"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:text="Company"
+                    android:textColor="#64748B"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tvDetailStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="#E5F5F3"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="7dp"
+                    android:text="Applied"
+                    android:textColor="#087F78"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Opportunity information -->
         <TextView
-            android:id="@+id/tvDetailClosingDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:text="OPPORTUNITY INFORMATION"
+            android:textColor="#142B4A"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.08" />
+
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="Closing date: Not specified"
-            android:textColor="#333333"
-            android:textSize="16sp" />
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="1dp"
+            app:strokeColor="#E8EDF3"
+            app:strokeWidth="1dp">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:id="@+id/tvDetailLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Location: Not specified"
+                    android:textColor="#334155"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tvDetailClosingDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Closing date: Not specified"
+                    android:textColor="#334155"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tvDetailDateApplied"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Date applied: Not specified"
+                    android:textColor="#334155"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tvDetailUrl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Application URL: Not specified"
+                    android:textColor="#087F78"
+                    android:textSize="14sp"
+                    android:autoLink="web"
+                    android:linksClickable="true" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Notes -->
         <TextView
-            android:id="@+id/tvDetailDateApplied"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:text="NOTES"
+            android:textColor="#142B4A"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.08" />
+
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="Date applied: Not specified"
-            android:textColor="#333333"
-            android:textSize="16sp" />
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="1dp"
+            app:strokeColor="#E8EDF3"
+            app:strokeWidth="1dp">
 
-        <TextView
-            android:id="@+id/tvDetailUrl"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="Application URL: Not specified"
-            android:textColor="#333333"
-            android:textSize="16sp" />
+            <TextView
+                android:id="@+id/tvDetailNotes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="100dp"
+                android:padding="18dp"
+                android:text="No notes"
+                android:textColor="#64748B"
+                android:textSize="14sp"
+                android:lineSpacingExtra="5dp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Notes"
-            android:textColor="#1A1A1A"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+        </com.google.android.material.card.MaterialCardView>
 
-        <TextView
-            android:id="@+id/tvDetailNotes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="#FFFFFF"
-            android:minHeight="100dp"
-            android:padding="16dp"
-            android:text="No notes"
-            android:textColor="#555555"
-            android:textSize="15sp" />
-
-        <Button
+        <!-- Actions -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnEditApplication"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="26dp"
             android:text="Edit Application"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:backgroundTint="#142B4A"
+            app:cornerRadius="12dp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnDeleteApplication"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="12dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="16dp"
             android:text="Delete Application"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:textColor="#B42318"
+            android:textSize="14sp"
+            app:backgroundTint="#FCE8E8"
+            app:cornerRadius="12dp" />
 
     </LinearLayout>
 

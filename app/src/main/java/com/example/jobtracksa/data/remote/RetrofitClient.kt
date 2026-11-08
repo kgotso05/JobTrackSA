@@ -9,7 +9,6 @@ object RetrofitClient {
 
     private const val BASE_URL = "https://jobtracksa.onrender.com/"
 
-
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
     }

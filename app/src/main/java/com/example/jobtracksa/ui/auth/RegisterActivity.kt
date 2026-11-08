@@ -126,11 +126,14 @@ class RegisterActivity : AppCompatActivity() {
 
                 } else {
 
-                    val message = when (response.code()) {
-                        409 -> "An account with this email already exists"
-                        400 -> "Please check your registration details"
-                        else -> "Registration failed"
-                    }
+                    val errorBody = response.errorBody()?.string()
+
+                    val message = "Registration failed. HTTP ${response.code()}: $errorBody"
+
+                    android.util.Log.e(
+                        "RegistrationError",
+                        message
+                    )
 
                     Toast.makeText(
                         this@RegisterActivity,

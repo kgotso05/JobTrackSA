@@ -8,6 +8,8 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.example.jobtracksa.R
 import com.example.jobtracksa.data.remote.model.JobApplication
+import android.content.res.ColorStateList
+import android.graphics.Color
 
 class ApplicationListAdapter(
     context: Context,
@@ -54,9 +56,23 @@ class ApplicationListAdapter(
         tvLocation.text =
             application?.location ?: "Location not specified"
 
-        tvStatus.text =
-            application?.status ?: "Unknown"
+        val status = application?.status ?: "Unknown"
 
+        tvStatus.text = status
+
+        val (backgroundColor, textColor) = when (status.trim().lowercase()) {
+            "saved" -> Pair("#E8EFFB", "#315A9A")
+            "applied" -> Pair("#E5F5F3", "#087F78")
+            "interview" -> Pair("#FFF3D9", "#A66A00")
+            "offer" -> Pair("#E4F5E9", "#218044")
+            "rejected" -> Pair("#FCE8E8", "#B42318")
+            else -> Pair("#EEF0F3", "#475569")
+        }
+
+        tvStatus.backgroundTintList =
+            ColorStateList.valueOf(Color.parseColor(backgroundColor))
+
+        tvStatus.setTextColor(Color.parseColor(textColor))
         return view
     }
 }
