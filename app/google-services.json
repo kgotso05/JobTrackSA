@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "767446557571",
+    "project_id": "jobtracksa",
+    "storage_bucket": "jobtracksa.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:767446557571:android:0ac2ff47a489d627208cb6",
+        "android_client_info": {
+          "package_name": "com.example.jobtracksa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "767446557571-d2v0vcaoagc9l1t65lo4fqr4a75dd3gi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.jobtracksa",
+            "certificate_hash": "defa06715ad697b0c70d1ad5a5ee1db626b42e0b"
+          }
+        },
+        {
+          "client_id": "767446557571-2glescb6918fen03ju2drjt296udr48h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKI3UEwFGGy-kC7ysN-JrPHSEGepWNWUk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "767446557571-2glescb6918fen03ju2drjt296udr48h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
