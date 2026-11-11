@@ -5,7 +5,6 @@ const applicationRoutes =
 
 
 const express = require("express");
-const cors = require("cors");
 const pool = require("./config/database");
 const firebaseAdmin = require("./config/firebaseAdmin");
 
@@ -14,8 +13,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: "10kb" }));
 app.use("/api/auth", authRoutes);
 app.use("/api/applications", applicationRoutes);
 
